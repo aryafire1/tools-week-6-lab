@@ -9,6 +9,7 @@ public class AvoideeScript : MonoBehaviour
     public GameObject toAvoid;
     public float range;
     public float speed;
+    public bool GizmosOn = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -51,7 +52,9 @@ public class AvoideeScript : MonoBehaviour
         make poisson disc here
         make collection to store spots
             foreach (point p in disc) {
-            draw visual gizmo line
+                if (gizmosOn == true) {
+                draw visual gizmo line
+                }
             }
             foreach (point p in poisson disc) {
             CheckVisibility()
