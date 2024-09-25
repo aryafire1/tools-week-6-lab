@@ -23,4 +23,38 @@ public class AvoideeScript : MonoBehaviour
     {
         
     }
+
+    //me notes waiting with enums? is that the thing? the WaitForSeconds() function thing
+
+    /* 
+    void GenLoop() {
+        if (avoidee doesnt see thing, prob bool?) {
+            enum wait for seconds here
+        }
+        else {
+            if (check place, no place) {
+            enum wait and check again
+            }
+            else {
+            move there to closest spot
+            }
+        }
+    }
+
+    void FindSpot() {
+        make poisson disc here
+        make collection to store spots
+            foreach (point p in disc) {
+            draw visual gizmo line
+            }
+            foreach (point p in poisson disc) {
+                if (avoidee sees it) {
+                    ignore point
+                }
+                else {
+                    add point to collection
+                }
+            }
+    }
+    */
 }
