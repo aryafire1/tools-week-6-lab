@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 458870536}
   - component: {fileID: 458870535}
   m_Layer: 0
-  m_Name: avoid
+  m_Name: player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -347,8 +347,9 @@ GameObject:
   - component: {fileID: 604732626}
   - component: {fileID: 604732625}
   - component: {fileID: 604732629}
+  - component: {fileID: 604732630}
   m_Layer: 0
-  m_Name: avoidee
+  m_Name: avoider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -454,6 +455,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c50b6ffc13946245a46a4065ca3cd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toAvoid: {fileID: 0}
+  range: 0
+  speed: 0
+--- !u!195 &604732630
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604732624}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 1
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &667701739
 GameObject:
   m_ObjectHideFlags: 0

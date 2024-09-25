@@ -27,16 +27,22 @@ public class AvoideeScript : MonoBehaviour
     //me notes waiting with enums? is that the thing? the WaitForSeconds() function thing
 
     /* 
+    //bool in pseudocode denotes if point is safe to move to
+
     void GenLoop() {
         if (avoidee doesnt see thing, prob bool?) {
             enum wait for seconds here
+            bool false
         }
         else {
             if (check place, no place) {
             enum wait and check again
+            bool false
             }
             else {
             move there to closest spot
+            FindSpot()
+            bool true
             }
         }
     }
@@ -48,13 +54,26 @@ public class AvoideeScript : MonoBehaviour
             draw visual gizmo line
             }
             foreach (point p in poisson disc) {
-                if (avoidee sees it) {
+            CheckVisibility()
+                if (player sees it) {
                     ignore point
                 }
                 else {
                     add point to collection
                 }
             }
+    }
+
+    void CheckVisibility() {
+        make ray from poisson points
+        if (ray hits wall) {
+            point is visible
+            bool false
+        }
+        else {
+            point not visible
+            bool true
+        }
     }
     */
 }
