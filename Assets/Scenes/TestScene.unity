@@ -155,8 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c50b6ffc13946245a46a4065ca3cd63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angle: 47.7
-  toAvoid: {fileID: 0}
+  angle: 46.8
+  toAvoid: {fileID: 1149387062}
   radius: 2
   inSight: 0
   targetMask:
