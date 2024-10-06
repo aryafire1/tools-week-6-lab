@@ -1,100 +1,25 @@
-using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-using Random = UnityEngine.Random;
 
-public class AvoiderScript : MonoBehaviour
-{
-    UnityEngine.AI.NavMeshAgent navmesh;
-    
-    [Range(0,360)]
-    public float angle;
-    public GameObject toAvoid;
-    //not sure we need this one?
-    //public bool GizmosOn = true;
-    public float radius;
-    public bool inSight;
-    
-    public LayerMask targetMask;
-    public LayerMask obstructionMask;
-    
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        navmesh = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        if (navmesh == null) {
-            Debug.LogWarning("Object does not have a Nav Mesh Agent. Assign and bake a nav mesh.");
-        }
-        toAvoid = GameObject.FindGameObjectWithTag("Player");
-        StartCoroutine(Timer());
 
-    }
-
-    private IEnumerator Timer()
-    {
-        float interval = 0.2f;
-        WaitForSeconds timer = new WaitForSeconds(interval);
-        
-        while (true)
-        {
-            yield return timer;
-            Hunt();
-        }
-    }
-
-    void Hunt()
-    {
-        Collider[] aura = Physics.OverlapSphere(transform.position, radius, targetMask);
-
-        if (aura.Length != 0)
-        { 
-            Transform target = aura[0].transform;
-            Vector3 playerDirection = (target.position - transform.position).normalized;
-
-            if (Vector3.Angle(transform.forward, playerDirection) < angle / 2)
-            {
-                float avoidDistance = Vector3.Distance(transform.position, target.position);
-
-                if (!Physics.Raycast(transform.position, playerDirection, avoidDistance, obstructionMask))
-                {
-                    inSight = true;
-                }
-                else
-                {
-                    inSight = false;
-                }
-            }
-            else
-            {
-                inSight = false;
-            }
-        }
-        else if(inSight)
-        {
-            inSight = false;
-        }
-    }
-
-    void Update()
-    {
-    }
-
-    /*void OnTriggerEnter(Collider other)
-    {
-        Vector3 auraDetection = other.transform.position;
-        float vision_range = 2.5f;
-
-        if (Vector3.Distance(transform.position, auraDetection) < vision_range)
-        {
-            Debug.Log("The Avoidee is in sight");
-        }
-
-    }
-    */
-    public class PoissonDiscSampler
+/// Poisson-disc sampling using Bridson's algorithm.
+/// Adapted from Mike Bostock's Javascript source: http://bl.ocks.org/mbostock/19168c663618b7f07158
+///
+/// See here for more information about this algorithm:
+///   http://devmag.org.za/2009/05/03/poisson-disk-sampling/
+///   http://bl.ocks.org/mbostock/dbb02448b0f93e4c82c3
+///
+/// Usage:
+///   PoissonDiscSampler sampler = new PoissonDiscSampler(10, 5, 0.3f);
+///   foreach (Vector2 sample in sampler.Samples()) {
+///       // ... do something, like instantiate an object at (sample.x, sample.y) for example:
+///       Instantiate(someObject, new Vector3(sample.x, 0, sample.y), Quaternion.identity);
+///   }
+///
+/// Author: Gregory Schlomoff (gregory.schlomoff@gmail.com)
+/// Released in the public domain
+public class PoissonDiscSampler
 {
     private const int k = 30;  // Maximum number of attempts before marking a sample as inactive.
 
@@ -106,7 +31,7 @@ public class AvoiderScript : MonoBehaviour
 
     /// Create a sampler with the following parameters:
     ///
-    /// width:  DAach sample's x coordinate will be between [0, width]
+    /// width:  each sample's x coordinate will be between [0, width]
     /// height: each sample's y coordinate will be between [0, height]
     /// radius: each sample will be at least `radius` units away from any other sample, and at most 2 * `radius`.
     public PoissonDiscSampler(float width, float height, float radius)
@@ -202,60 +127,4 @@ public class AvoiderScript : MonoBehaviour
             y = (int)(sample.y / cellSize);
         }
     }
-}
-
-    //me notes waiting with enums? is that the thing? the WaitForSeconds() function thing
-
-    /* 
-    //bool in pseudocode denotes if point is safe to move to
-
-    void GenLoop() {
-        if (avoidee doesnt see thing, prob bool?) {
-            enum wait for seconds here
-            bool false
-        }
-        else {
-            if (check place, no place) {
-            enum wait and check again
-            bool false
-            }
-            else {
-            move there to closest spot
-            FindSpot()
-            bool true
-            }
-        }
-    }
-
-    void FindSpot() {
-        make poisson disc here
-        make collection to store spots
-            foreach (point p in disc) {
-                if (gizmosOn == true) {
-                draw visual gizmo line
-                }
-            }
-            foreach (point p in poisson disc) {
-            CheckVisibility()
-                if (player sees it) {
-                    ignore point
-                }
-                else {
-                    add point to collection
-                }
-            }
-    }
-
-    void CheckVisibility() {
-        make ray from poisson points
-        if (ray hits wall) {
-            point is visible
-            bool false
-        }
-        else {
-            point not visible
-            bool true
-        }
-    }
-    */
 }
