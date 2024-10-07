@@ -24,6 +24,18 @@ public class AvoiderGizmos : Editor
         {
             Handles.color = Color.green;
             Handles.DrawLine(guide.transform.position, guide.toAvoid.transform.position);
+            foreach (var failedpath in guide.invalidroutes)
+            {
+                Gizmos.color = Color.red;
+                Debug.DrawLine(guide.transform.position, failedpath);
+            }
+
+            foreach (var path in guide.routes)
+            {
+                Gizmos.color = Color.blue;
+                Debug.DrawLine(guide.transform.position, path);
+
+            }
         }
     }
 

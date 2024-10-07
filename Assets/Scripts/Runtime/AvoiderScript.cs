@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -16,7 +17,8 @@ public class AvoiderScript : MonoBehaviour
     //public bool GizmosOn = true;
     public float radius;
     public bool inSight;
-    
+    public List<Vector3> routes = new List<Vector3> ();
+    public List<Vector3> invalidroutes = new List<Vector3> ();
     public LayerMask targetMask;
     public LayerMask obstructionMask;
     
@@ -61,6 +63,7 @@ public class AvoiderScript : MonoBehaviour
                 if (!Physics.Raycast(transform.position, playerDirection, avoidDistance, obstructionMask))
                 {
                     inSight = true;
+                    FindRoute();
                 }
                 else
                 {
@@ -76,6 +79,58 @@ public class AvoiderScript : MonoBehaviour
         {
             inSight = false;
         }
+    }
+
+    void FindRoute()
+    {
+
+        var sampler = new PoissonDiskSampler3D(10f, transform.position.y, 10f, radius);
+        
+        foreach (var sample in sampler.Samples())
+        {
+            //Debug.Log("Value Processed");
+            var ray = new Ray(transform.position, transform.forward);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 100))
+            {
+                if (hit.collider.tag == "Player")
+                {
+                    invalidroutes.Add(sample);
+                }
+                else
+                {
+                    routes.Add(sample);
+                }
+            }
+        }
+        
+        
+        
+    }
+
+    void Escape()
+    {
+        List<float> distances = new List<float>();
+        Dictionary<Vector3, float> core = new Dictionary<Vector3, float>();
+        Vector3 escapeRoute = new Vector3();
+        if (routes.Count == 0)
+        {
+            Debug.Log("Yikes!!! Theres no where to run.");
+        }
+        else
+        {
+            foreach (var path in routes)
+            {
+                // couldn't find anonther way
+                //core.Add(path, path.Distance(transform.position, path));
+                
+            }
+            
+            
+        }
+
+        navmesh.destination = escapeRoute;
+
     }
 
     //me notes waiting with enums? is that the thing? the WaitForSeconds() function thing
